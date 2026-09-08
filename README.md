@@ -1,62 +1,91 @@
 # 🤖 AI-Powered Research Assistant
 
-> An AI-powered research workspace for understanding PDF documents through automatic summarization and document-based question answering.
+> An AI-powered web application for understanding PDF documents through automatic summarization and document-based question answering.
 
-The **AI-Powered Research Assistant** allows users to upload PDF documents, generate AI-powered summaries, ask questions about their documents, and continue conversations through a ChatGPT-style interface.
+The **AI-Powered Research Assistant** allows users to upload PDF documents, generate AI-powered summaries, ask questions about their documents, and manage conversations through a ChatGPT-style interface.
+
+---
+
+## 🚀 Project Overview
+
+Research papers, technical documents, and study materials can contain a large amount of information that is difficult to process quickly.
+
+This project provides a simple research workspace where users can:
+
+- 🔐 Create an account and securely log in
+- 📄 Upload PDF documents
+- 📝 Extract text from PDF files
+- 🧠 Generate AI-powered document summaries
+- 💬 Ask questions about uploaded documents
+- 🗂️ Continue questions within the same conversation
+- 📚 View recent conversations
+- 🗑️ Delete conversations
+- 📖 Open uploaded PDFs securely
 
 ---
 
 ## ✨ Features
 
 ### 🔐 Secure Authentication
+
 - User registration and login
-- Password hashing with Argon2
+- Password hashing using Argon2
 - JWT-based authentication
 - Protected backend API endpoints
-- User-specific document and conversation access
+- User-specific document access
+- User-specific conversation access
 
 ### 📄 PDF Document Processing
-- Upload PDF documents
-- Extract text from PDF files
-- Store document information in MySQL
-- Generate an AI summary from the extracted content
-- Securely open uploaded PDFs
 
-### 🧠 AI-Powered Question Answering
-- Ask questions about uploaded documents
-- Generate responses using Google Gemini
-- AI responses are rendered with Markdown
-- Responses are designed to stay grounded in the available document content
+- Upload PDF documents
+- Extract text from uploaded PDF files
+- Store document information in MySQL
+- Generate AI-powered summaries
+- Secure access to uploaded PDF files
+
+### 🧠 AI-Powered Research
+
+- Generate concise summaries from uploaded documents
+- Ask questions about document content
+- Generate answers using Google Gemini
+- Markdown rendering for AI-generated responses
+- Prompting designed to reduce unsupported answers
 
 ### 💬 Conversation Management
-- Multiple messages can belong to one conversation
-- Conversation IDs are stored in the database
-- Recent conversations appear in the sidebar
-- Delete complete conversations
-- Continue asking questions within an existing conversation
 
-### 🖥️ ChatGPT-Style Interface
-- Dark sidebar for recent conversations
+- Store multiple chat messages in one conversation
+- Generate and store a unique `conversation_id`
+- Display recent conversations in the sidebar
+- Show message counts for conversations
+- Continue asking questions inside an existing conversation
+- Delete an entire conversation
+
+### 🖥️ ChatGPT-Style Workspace
+
+- Dark sidebar
 - New Chat functionality
-- Document summary section
-- Question and answer workspace
-- Open PDF button
+- Recent conversation history
+- Document summary area
+- AI question and answer area
+- Secure Open PDF functionality
 - Logout functionality
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Technology Stack
 
-| Layer | Technologies |
-|------|--------------|
-| Frontend | React, Vite, JavaScript, React Markdown |
-| Backend | Python, FastAPI, Pydantic |
-| Database | MySQL, SQLAlchemy |
-| Authentication | JWT, Argon2 password hashing |
+| Category | Technologies |
+|---|---|
+| Frontend | React, Vite, JavaScript |
+| UI / Rendering | React Markdown |
+| Backend | Python, FastAPI |
+| Validation | Pydantic |
+| ORM | SQLAlchemy |
+| Database | MySQL |
+| Authentication | JWT, Argon2 |
 | AI | Google Gemini API |
 | PDF Processing | PyPDF |
-| API | REST APIs |
-| Development | VS Code, Git, GitHub |
+| Version Control | Git, GitHub |
 
 ---
 
@@ -64,7 +93,7 @@ The **AI-Powered Research Assistant** allows users to upload PDF documents, gene
 
 ```mermaid
 flowchart LR
-    A[User] --> B[React + Vite Frontend]
+    A[User] --> B[React + Vite]
     B --> C[FastAPI Backend]
 
     C --> D[JWT Authentication]
@@ -73,6 +102,7 @@ flowchart LR
     C --> G[Google Gemini API]
 
     E --> F
+    F --> C
     G --> C
     C --> B
 ```
@@ -82,46 +112,62 @@ flowchart LR
 ## 🔄 Application Workflow
 
 ```text
-                ┌──────────────────────┐
-                │        User          │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │ React / Vite Frontend│
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │    FastAPI Backend   │
-                └──────┬─────┬─────┬───┘
-                       │     │     │
-              ┌────────┘     │     └────────┐
-              ▼              ▼              ▼
-        ┌──────────┐   ┌──────────┐   ┌───────────┐
-        │   PDF    │   │  MySQL   │   │  Gemini   │
-        │Processing│   │ Database │   │    AI     │
-        └──────────┘   └──────────┘   └───────────┘
+                    ┌────────────────────┐
+                    │        User        │
+                    └─────────┬──────────┘
+                              │
+                              ▼
+                    ┌────────────────────┐
+                    │ React + Vite       │
+                    │ Frontend           │
+                    └─────────┬──────────┘
+                              │
+                              ▼
+                    ┌────────────────────┐
+                    │ FastAPI Backend    │
+                    └──────┬─────┬───────┘
+                           │     │
+                ┌──────────┘     └───────────┐
+                ▼                            ▼
+       ┌────────────────┐           ┌────────────────┐
+       │ PDF Processing │           │ MySQL Database │
+       └────────┬───────┘           └────────────────┘
+                │
+                ▼
+       ┌────────────────┐
+       │ Google Gemini  │
+       │      AI        │
+       └────────────────┘
 ```
 
-### Example flow
+### Detailed Flow
 
 ```text
-Upload PDF
-    ↓
-Extract PDF text
-    ↓
-Store document information
-    ↓
-Send document content to Gemini
-    ↓
-Generate summary
-    ↓
-User asks a question
-    ↓
-FastAPI sends question + document content to Gemini
-    ↓
-AI response returned to React
+1. User creates an account or logs in
+              ↓
+2. JWT token authenticates the user
+              ↓
+3. User uploads a PDF
+              ↓
+4. FastAPI receives the file
+              ↓
+5. PDF text is extracted
+              ↓
+6. Document information is stored in MySQL
+              ↓
+7. Extracted content is sent to Gemini
+              ↓
+8. Gemini generates an AI summary
+              ↓
+9. User asks questions about the document
+              ↓
+10. FastAPI processes the question
+              ↓
+11. Gemini generates an AI response
+              ↓
+12. Conversation data is stored
+              ↓
+13. React displays the response
 ```
 
 ---
@@ -152,20 +198,30 @@ AI-Powered-Research-Assistant/
 │   │   ├── App.jsx
 │   │   ├── App.css
 │   │   ├── index.css
-│   │   └── main.jsx
+│   │   ├── main.jsx
+│   │   └── assets/
 │   ├── package.json
+│   ├── package-lock.json
 │   └── vite.config.js
+│
+├── docs/
+│   ├── login.png
+│   ├── dashboard.png
+│   ├── summary.png
+│   └── conversation.png
 │
 ├── .env.example
 ├── .gitignore
 └── README.md
 ```
 
+> `backend/.env` contains local secrets and is intentionally excluded from the repository.
+
 ---
 
-## 🚀 Getting Started
+## ⚙️ Installation and Setup
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/BikramKeshariSwain/AI-Powered-Research-Assistant.git
@@ -174,47 +230,55 @@ cd AI-Powered-Research-Assistant
 
 ---
 
-## ⚙️ Backend Setup
+# 🐍 Backend Setup
 
-Open a terminal inside the `backend` directory:
+Go to the backend directory:
 
 ```bash
 cd backend
 ```
 
-### Create a virtual environment
+### Create a Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-### Activate the virtual environment
+### Activate the Virtual Environment
 
-**Windows PowerShell:**
+For Windows PowerShell:
 
 ```powershell
 .\venv\Scripts\Activate.ps1
 ```
 
-### Install dependencies
+### Install Backend Dependencies
 
-If a `requirements.txt` file is added to the project, install with:
+Install the packages required by the application:
 
 ```bash
-pip install -r requirements.txt
+pip install fastapi
+pip install uvicorn
+pip install sqlalchemy
+pip install pymysql
+pip install pydantic
+pip install python-multipart
+pip install pypdf
+pip install python-dotenv
+pip install google-generativeai
+pip install pyjwt
+pip install "pwdlib[argon2]"
 ```
 
-Otherwise, install the backend dependencies used by the project.
+### Configure Environment Variables
 
-### Configure environment variables
-
-Create:
+Create a file:
 
 ```text
 backend/.env
 ```
 
-Example:
+Use:
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key
@@ -222,21 +286,21 @@ JWT_SECRET_KEY=your_jwt_secret
 DATABASE_URL=your_database_connection
 ```
 
-> ⚠️ Never commit the real `.env` file to GitHub.
+> ⚠️ Never commit your real `.env` file or any API keys, passwords, or secrets to GitHub.
 
-### Start FastAPI
+### Start the Backend
 
 ```bash
 uvicorn main:app --reload
 ```
 
-Backend:
+Backend server:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-Swagger API documentation:
+FastAPI Swagger documentation:
 
 ```text
 http://127.0.0.1:8000/docs
@@ -244,9 +308,11 @@ http://127.0.0.1:8000/docs
 
 ---
 
-## 🌐 Frontend Setup
+# ⚛️ Frontend Setup
 
-Open another terminal:
+Open a second terminal.
+
+From the project root:
 
 ```bash
 cd frontend
@@ -272,117 +338,236 @@ http://localhost:5173
 
 ---
 
-## 🔒 Security
+## 🔑 Environment Variables
 
-The application includes several security measures:
+The project uses environment variables to keep sensitive information outside the source code.
 
-- Password hashing using Argon2
-- JWT authentication
-- Protected API endpoints
-- User-specific document authorization
-- User-specific conversation authorization
-- Protected PDF access
-- Environment variables for sensitive credentials
-- `.env` excluded from version control
+### `.env.example`
+
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+JWT_SECRET_KEY=your_jwt_secret_here
+DATABASE_URL=your_database_connection_here
+```
+
+Create your actual:
+
+```text
+backend/.env
+```
+
+with the real values.
+
+### Important Security Rule
+
+```text
+.env
+```
+
+must remain private and should never be committed to GitHub.
 
 ---
 
-## 💡 Why I Built This Project
+## 🔒 Security
 
-Research papers and technical PDFs often contain a large amount of information that can be difficult to process quickly.
+Security was considered while building the application.
 
-This project explores how AI can be combined with:
+Implemented security features include:
 
-- Document processing
-- REST APIs
-- Databases
-- Authentication
-- Modern web interfaces
+- 🔐 Argon2 password hashing
+- 🎫 JWT-based authentication
+- 🛡️ Protected API endpoints
+- 👤 User-specific document authorization
+- 💬 User-specific conversation authorization
+- 📄 Protected PDF file access
+- 🔑 Environment-based secret management
+- 🚫 `.env` excluded from version control
 
-to create a practical research assistant that helps users interact with their documents more efficiently.
+---
+
+## 💬 Conversation System
+
+The application uses a `conversation_id` to associate multiple messages with one conversation.
+
+Example:
+
+```text
+Conversation
+│
+├── User: What is this document about?
+│   └── AI: ...
+│
+├── User: What are the main topics?
+│   └── AI: ...
+│
+└── User: Explain the first topic.
+    └── AI: ...
+```
+
+This allows the application to represent several questions as part of a single research conversation.
+
+---
+
+## 🖼️ Application Screenshots
+
+### 🔐 Login
+
+![Login Screen](docs/login.png)
+
+---
+
+### 🖥️ Research Workspace
+
+![Research Workspace](docs/dashboard.png)
+
+---
+
+### 🧠 AI Summary
+
+![AI Summary](docs/summary.png)
+
+---
+
+### 💬 Conversation
+
+![Conversation](docs/conversation.png)
+
+---
+
+## 🎯 Core API Functionality
+
+The backend provides functionality for:
+
+| Functionality | Description |
+|---|---|
+| Authentication | User registration and login |
+| Documents | Upload, retrieve, update and delete documents |
+| PDF Access | Secure PDF file opening |
+| Summaries | Generate and manage AI summaries |
+| Chat | Ask AI questions about documents |
+| Conversations | Group multiple messages using `conversation_id` |
+
+FastAPI's interactive API documentation can be accessed at:
+
+```text
+http://127.0.0.1:8000/docs
+```
 
 ---
 
 ## 🧠 What I Learned
 
-Through this project, I practiced:
+Building this project helped me gain practical experience with:
 
-- Building REST APIs with FastAPI
-- Designing database models with SQLAlchemy
-- Working with MySQL
-- Implementing JWT authentication
-- Secure password hashing
-- Handling PDF uploads and text extraction
+### Backend Development
+- Designing REST APIs with FastAPI
+- Request validation using Pydantic
+- Database integration using SQLAlchemy
+- MySQL database design
+- File upload handling
+- PDF text extraction
+
+### Authentication & Security
+- Password hashing
+- JWT authentication
+- Protected routes
+- User authorization
+- Environment variable management
+
+### Artificial Intelligence
 - Integrating Google Gemini
-- Connecting React with FastAPI
-- Managing frontend state
-- Designing conversation-based application flows
-- Protecting user-specific resources
-- Using Git and GitHub for version control
+- Prompt engineering
+- Document summarization
+- Document-based question answering
+- Managing AI-generated responses
+
+### Frontend Development
+- React component development
+- React state management
+- Vite
+- API integration
+- Markdown rendering
+- Conversation state management
+
+### Development Workflow
+- Git
+- GitHub
+- Debugging API and frontend integration
+- Managing a full-stack application
 
 ---
 
 ## 🚧 Future Improvements
 
-The project is still under active development.
+The project is actively being developed.
 
 Planned improvements include:
 
 - 🧠 Persistent conversation context for Gemini
 - 🔎 Retrieval-Augmented Generation (RAG)
-- 📚 Support for multiple documents in a conversation
+- 📚 Multiple documents within one conversation
 - ⚡ Streaming AI responses
 - 📝 Automatic conversation titles
-- 📱 Improved responsive design
-- 📄 Support for additional document formats
 - 🔍 Semantic document search
+- 📄 Support for additional document formats
+- 📱 Improved responsive design
 - 🎨 Further UI/UX improvements
 
 ---
 
-## 📸 Screenshots
+## 📌 Current Project Status
 
-### Login
+**Status: 🟡 Active Development**
 
-_Add project screenshot here._
+### Currently implemented
 
-### Research Workspace
+```text
+✅ User Registration
+✅ User Login
+✅ Password Hashing
+✅ JWT Authentication
+✅ PDF Upload
+✅ PDF Text Extraction
+✅ MySQL Database
+✅ AI Document Summarization
+✅ Gemini Question Answering
+✅ Conversation IDs
+✅ Recent Conversation Sidebar
+✅ Conversation Deletion
+✅ Secure PDF Access
+```
 
-_Add project screenshot here._
+### Planned
 
-### AI Summary
-
-_Add project screenshot here._
-
-### Conversation
-
-_Add project screenshot here._
+```text
+🔄 Persistent AI Conversation Context
+🔄 RAG-based Document Retrieval
+🔄 Multiple Document Conversations
+🔄 Streaming Responses
+🔄 Advanced Search
+```
 
 ---
 
-## 🎯 Project Status
+## 💡 Why This Project?
 
-**Current Status:** 🟡 Active Development
-
-The core workflow is implemented:
+The goal of this project is to explore how modern AI can be combined with traditional software engineering concepts such as:
 
 ```text
+AI
++
+REST APIs
++
+Databases
++
 Authentication
-     ↓
-PDF Upload
-     ↓
-PDF Text Extraction
-     ↓
-AI Summary
-     ↓
-Document Questions
-     ↓
-Conversation Management
-     ↓
-Secure PDF Access
++
+PDF Processing
++
+React
 ```
 
-More advanced AI conversation memory and retrieval features are planned for future iterations.
+to create a practical tool for interacting with research and technical documents.
 
 ---
 
@@ -392,11 +577,17 @@ More advanced AI conversation memory and retrieval features are planned for futu
 
 **B.Tech Computer Science Engineering Student**
 
-📌 GitHub:  
+🔗 GitHub:  
 https://github.com/BikramKeshariSwain
 
 ---
 
-## ⭐ Support
+## ⭐ Project
 
 If you find this project interesting, consider giving the repository a ⭐ on GitHub.
+
+---
+
+## 📄 License
+
+This project is currently for educational and portfolio purposes.
